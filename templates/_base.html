@@ -1,0 +1,247 @@
+{% load static %}
+<!DOCTYPE html>
+{% block html %}
+<html lang="en">
+  <head>
+    {% block head %}
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <link rel="preconnect" href="https://fonts.googleapis.com">
+      <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+      <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+      <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+      <link rel="stylesheet" href="{% static 'css/_base.css' %}">
+      {% block javascript %}
+      <script src="{% static 'js/bootstrap.bundle.min.js' %}" defer></script>
+      <script src="{% static 'js/scroll.js' %}" defer></script>
+      <script src="https://kit.fontawesome.com/391afddfb3.js" crossorigin="anonymous" defer></script>
+      {% endblock %}
+      <link rel="shortcut icon" type="image/png" href="{% static 'images/logo.svg' %}">
+      <title>{% block title %}{% endblock %} | Play2Learn</title>
+    {% endblock %}
+  </head>
+  <body>
+    {% block body %}
+      <!-- Navbar -->
+      <nav class="navbar navbar-expand-lg text-black fw-bold sticky-top">
+        <div class="container">
+          <img src="{% static 'images/logo.svg' %}" alt="Play 2 learn logo" width="45" height="43" class="me-1" />
+          <a href="{% url 'pages:homepage' %}" class="navbar-brand">Play2Learn</a>
+          <button class="navbar-toggler" type="button" 
+          data-bs-toggle="collapse" data-bs-target="#navbarText">
+              <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse justify-content-end" id="navbarText">
+            <ul class="navbar-nav mr-auto text-right">
+              <li class="nav-item m-1 active">
+                  <a href="{% url 'pages:homepage' %}" class="nav-link">
+                    Home
+                  </a>
+              </li>
+
+              <li class="nav-item m-1 dropdown">
+                <button 
+                  class="nav-link dropdown-toggle" 
+                  type="button" 
+                  data-bs-toggle="dropdown" 
+                  aria-expanded="false"
+                >
+                  Games
+                </button>
+                <ul class="dropdown-menu shadow-lg bg-light">
+                  <li>
+                    <a href="{% url 'games:anagram-hunt' %}" 
+                      class="dropdown-item dd--game"
+                    >
+                      Anagram Hunt
+                    </a>
+                  </li>
+                  <div class="dropdown-divider"></div>
+                  <li>
+                    <a href="{% url 'games:math-facts' %}" 
+                      class="dropdown-item dd--game"
+                    >
+                      Math Facts Practice
+                    </a>
+                  </li>
+                </ul>
+              </li>
+
+              <li class="nav-item m-1 dropdown">
+                <button 
+                  class="nav-link dropdown-toggle" 
+                  type="button" 
+                  data-bs-toggle="dropdown" 
+                  aria-expanded="false"
+                >
+                  Info
+                </button>
+                <ul class="dropdown-menu shadow-lg bg-light">
+                  <li>
+                    <a href="{% url 'games:leaderboard' %}" 
+                      class="dropdown-item dd--game"
+                    >
+                      Leaderboards
+                    </a>
+                  </li>
+                  <div class="dropdown-divider"></div>
+                  <li>
+                    <a href="{% url 'reviews:reviews' %}" 
+                      class="dropdown-item dd--game"
+                    >
+                      Reviews
+                    </a>
+                  </li>
+                  <div class="dropdown-divider"></div>
+                  <li>
+                    <a href="{% url 'pages:about-us' %}" 
+                      class="dropdown-item dd--game"
+                    >
+                      About
+                    </a>
+                  </li>
+                </ul>
+              </li>
+
+              {% if not user.is_authenticated %}
+              <li class="nav-item m-1">
+                <a href="{% url 'account_login' %}" 
+                  class="nav-link btn-outline-light"
+                >
+                  Login
+                </a>
+              </li>
+              <li class="nav-item m-1">
+                <a href="{% url 'account_signup' %}" 
+                  class="nav-link btn-outline-light"
+                >
+                  Sign Up
+                </a>
+              </li>
+              {% else %}
+              <li class="nav-item m-1 dropdown">
+                <button 
+                  class="nav-link dropdown-toggle text-uppercase" 
+                  type="button" 
+                  data-bs-toggle="dropdown" 
+                  aria-expanded="false"
+                >
+                {% if user.avatar %}
+                <img 
+                  src="{{ user.avatar.url }}" 
+                  alt="{{ user.username }}"
+                  class="rounded-5 float-start" 
+                  width="25" 
+                  height="25"
+                > 
+                  | {{ user.username }}
+                {% else %}
+                    Me
+                {% endif %} 
+                </button>
+                <ul class="dropdown-menu shadow-lg bg-light">
+                  {% if user.is_staff %}
+                  <li>
+                    <a href="/admin/" 
+                      class="dropdown-item dd--game"
+                    >
+                      Admin
+                    </a>
+                  </li>
+                  {% endif %}
+                  <li>
+                    <a href="{% url 'my-account' %}" 
+                      class="dropdown-item dd--game"
+                    >
+                      My Account
+                    </a>
+                  </li>
+                  <li>
+                    <a href="{% url 'games:my-scores' %}" 
+                      class="dropdown-item dd--game"
+                    >
+                      My Scores
+                    </a>
+                  </li>
+                  <li>
+                    <a href="{% url 'reviews:my-reviews' %}" 
+                      class="dropdown-item dd--game"
+                    >
+                      My Reviews
+                    </a>
+                  </li>
+                  <div class="dropdown-divider"></div>
+                  <li>
+                    <form method="post" action="{% url 'account_logout' %}">
+                      {% csrf_token %}
+                      <button class="btn dropdown-item dd--game">
+                        Log Out
+                      </button>
+                    </form>
+                  </li>
+                </ul>
+              {% endif %}
+              </li>
+            </ul>
+          </div>
+        </div>
+      </nav>
+
+      <main>
+        {% if messages %}
+        <div class="container">
+          <ul>
+            {% for message in messages %}
+              <div class="alert message{{ message.tags }} alert-dismissible" role="alert">
+                <strong>{{message}}</strong>
+                <button 
+                  type="button" 
+                  class="btn-close" 
+                  data-bs-dismiss="alert" 
+                  aria-label="Close"
+                ></button>
+              </div>
+            {% endfor %}
+          </ul>
+        </div>
+        {% endif %}
+
+        {% block main %}
+        {% endblock %}
+      </main>
+
+      <footer id="footer" class="bg-light">
+        <div class="container">
+          <div class="row">
+            <div class="d-none d-sm-block col-sm-8 d-sm-flex">
+              <img src="{% static 'images/logo.svg' %}" alt="Play 2 learn logo" width="45" height="43" class="" />
+              <p class="text-black ps-2 p-2">
+                  <a href="{% url 'pages:homepage' %}" class="text-decoration-none text-black fw-bold">Play2Learn</a> &copy; {% now 'Y' %}
+              </p>
+            </div>
+            <div class="col-12 d-flex justify-content-center col-sm-4 d-sm-flex justify-content-sm-end py-2">
+              <a href="{% url 'pages:contact-us' %}" class="text-decoration-none px-1">
+                <i class="fa-regular fa-envelope fa-2x text-black"></i>
+              </a>
+              <a href="https://twitter.com" target="_blank" class="text-decoration-none px-1">
+                <i class="fa-brands fa-x-twitter fa-2x text-black"></i>
+              </a>
+              <a href="https://facebook.com" target="_blank" class="text-decoration-none px-1">
+                <i class="fa-brands fa-facebook fa-2x text-black"></i>
+              </a>
+              <a href="https://instagram.com" target="_blank" class="text-decoration-none px-1">
+                <i class="fa-brands fa-instagram fa-2x text-black"></i>
+              </a> 
+            </div>
+          </div>  
+        </div>
+      </footer>
+      
+      <button id="to-top" class="to-top-btn">
+        <img src="{% static 'images/up-arrow.png' %}" alt="Up Arrow">
+      </button>
+
+    {% endblock %}
+  </body>
+</html>
+{% endblock %}

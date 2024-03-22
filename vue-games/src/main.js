@@ -1,18 +1,19 @@
-import { createApp } from 'vue';
 import axios from 'axios';
 import VueAxios from 'vue-axios';
 
-import router from './router'; // import our router
-import App from "./App";
+import '../../static/css/_base.css';
 
-// set default Django cookies and headers
+
+import { createApp } from 'vue';
+import router from './router';
+
+import App from './App.vue';
+
 axios.defaults.xsrfCookieName = 'csrftoken';
 axios.defaults.xsrfHeaderName = "X-CSRFTOKEN";
+const app = createApp(App);
 
-const app = createApp(App); // create our app instance
+app.use(router);
+app.use(VueAxios, axios);
 
-app.use(router); // tell our app to use our router
-
-app.use(VueAxios, axios); // tell our app to use axios
-
-app.mount("#app"); // mount our app on the div#app element in our template
+app.mount('#app');

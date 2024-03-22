@@ -1,0 +1,234 @@
+:root {
+    /* Colors (FIXED) */
+    --primary: #DC143C;
+    --black: #051923;
+    --gray: #33415c;
+    --beige: #979dac;
+    --quotes: #3da5d9;
+  
+  
+    /* Colors (THEME-DEPENDANT */
+    --text-color: white;
+  
+  
+    --light-icon: white;
+    --gray-light: #bdbdbd;
+    --anchor-color: var(--primary);
+  
+  }
+  
+  ::selection {
+    background-color: var(--primary);
+    color: var(--black);
+  }
+  
+  
+  body {
+    font-family: 'Fira Code', monospace;
+    overflow: auto;
+    color: var(--black);
+  }
+  
+  .navbar {
+    transition: all 0.5s ease-in-out;
+  }
+  
+  a, input, textarea, button, select {
+    font-family: 'Fira Code', monospace;
+  }
+  
+  /* Home page background */
+  .available-games {
+    background: url('../../static/images/cool_bg.jpg') center center no-repeat;
+    background-size: cover;
+    background-attachment: fixed;
+  }
+  
+  .available-games::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.7);
+  }
+  
+  .funky-bg {
+    z-index: 10;
+    color: #fff;
+  }
+  
+  /* Container's margin-bottom */
+  
+  #login-container,
+  #registration-container,
+  #myaccount_container,
+  .--custom-mb,
+  #leaderboard-container,
+  #myscores_container,
+  #game_review_form-container,
+  #gamereview_detail-container,
+  #game_score_detail-container,
+  #contact_form-container {
+    margin-bottom: 75px;
+  }
+  
+  /* My Review Cards */
+  .card--bg-img {
+    background: url('../images/blue-design.jpg') center center no-repeat;
+    background-size: cover;
+    border-radius: 10px;
+  }
+  
+  .card--bg-img-2 {
+    background: url('../images/dark-geometric.jpg') center center no-repeat;
+    background-size: cover;
+    border-radius: 10px;
+  }
+  
+  .card--bg-img::after,
+  .card--bg-img-2::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border-radius: 10px;
+    background: rgba(0, 0, 0, 0.6);
+  }
+  
+  .card--bg-img .card-title,
+  .card--bg-img-2 .card-title,
+  .card--bg-img p,
+  .card--bg-img-2 p,
+  .card--bg-img span,
+  .card--bg-img-2 span {
+    z-index: 10;
+  }
+  
+  /* Registration Page */
+  .imagine-img {
+    background: url('../images/look_rev.jpeg') bottom center no-repeat;
+    background-size: cover;
+    border-radius: 10px;
+  }
+  
+  .imagine-img::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border-radius: 10px;
+    background: rgba(0, 0, 0, 0.4);
+  }
+  
+  .imagine-img p {
+    z-index: 10;
+  }
+  
+  #div_id_dob label {
+    display: block !important;
+  }
+  
+  /* To Top Button */
+  .to-top-btn {
+    position: fixed;
+    z-index: 20;
+    bottom: 20px;
+    right: 20px;
+    opacity: 0;
+    width: 42px;
+    height: 42px;
+    border: none;
+    border-radius: 50%;
+    outline: none;
+    background-color: #44434a;
+    cursor: pointer;
+    transition: all 0.5s ease-in-out;
+  }
+  
+  .to-top-btn:hover {
+    background-color: #1d1d21;
+  }
+  
+  .to-top-btn {
+    img {
+      margin-bottom: 0.25rem;
+      width: 18px;
+    }
+  }
+  
+  .show {
+    opacity: 1;
+  }
+  
+  footer#footer {
+    position: fixed;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 11;
+  }
+  
+  a.trash-color {
+    color: var(--primary);
+  }
+  
+  .special--border {
+    box-shadow: inset 0 -2px 3px 5px #fff;
+  }
+  
+  .btn--raised {
+    background-color: var(--primary);
+    color: #000;
+    padding: 10px 48px 10px 18px;
+    background-image: url("../images/arrow-right.svg");
+    background-repeat: no-repeat;
+    background-position: right 20px center;
+    border-radius: 3px;
+  }
+  
+  .dd--game:hover {
+    background-color: var(--primary);
+    color: #fff;
+  }
+  
+  /* MESSAGE STYLES */
+  .message {
+    background-color: palegoldenrod;
+    color: black;
+  }
+  
+  .messagedebug {
+    background-color: slategray;
+    color: white;
+  }
+  .messageinfo {
+    background-color: azure;
+    color: darkblue;
+  }
+  
+  .messagesuccess {
+    background-color: lightgreen;
+    color: darkgreen;
+  }
+  
+  .messagewarning {
+    background-color: lightgoldenrodyellow;
+    color: darkgoldenrod;
+  }
+  
+  .messageerror {
+    background-color: pink;
+    color: darkred;
+  }
+  
+  @media(prefers-reduced-motion: no-preference) {
+    html {
+      scroll-behavior: smooth;
+    }
+  }

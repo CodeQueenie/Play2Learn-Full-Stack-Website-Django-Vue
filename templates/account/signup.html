@@ -1,0 +1,49 @@
+{% extends '_base.html' %}
+{% load crispy_forms_tags %}
+
+{% block title %}Register{% endblock %}
+
+{% block main %}
+<div id="registration-container" class="container">
+  <div class="row my-4">
+    <div class="col-md-6">
+      <div class="card border-0 imagine-img position-relative mt-4">
+        <div class="card-body text-right">
+          <p class="display-3 text-white fw-semibold position-relative">
+            Imagine what you can learn playing games
+          </p>
+          <p class="display-1 invisible">
+            Consistancy, Hard work, Dedication 
+          </p>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-6">
+      <div class="card shadow-lg border-0 my-3">
+        <div class="d-flex flex-column align-items-center justify-content-center text-center text-uppercase mt-3">
+          <h5 class="badge bg-primary">Player</h5>
+          <h2 class="fw-bold">Registration</h2>
+        </div>
+        <div class="card-body">
+          <form method="post" class="form-outline form-white">
+            {% csrf_token %}
+            {{ form|crispy }}
+            <div class="row">
+              <div class="col-6 offset-3">
+                <button class="form-control btn btn-outline-light btn--raised rounded-3">
+                  Submit
+                </button>
+              </div>
+            </div>
+          </form>
+        </div>
+        <div class="card-footer">
+          Already have an account? <a href="{% url 'account_login' %}" class="text-decoration-none fw-bold">
+            Log in
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

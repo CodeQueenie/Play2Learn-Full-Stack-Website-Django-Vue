@@ -1,0 +1,28 @@
+{% extends "_base.html" %}
+
+{% block title %}Confirm Delete Score{% endblock %}
+{% block main %}
+<div class="container">
+  <div class="row my-4">
+    <div class="col-md-8 offset-md-2">
+      <div class="card shadow-lg border-0 my-3 text-center">
+        <form method="post" class="mt-2">
+          {% csrf_token %}
+          <p>
+            <strong>
+              Are you sure you want to delete this <span class="text-success">{{ gamescore.game }}</span> score?
+            </strong>
+          </p>
+          <p class="fs-3 fw-bold text-primary">{{ gamescore.score }}</p>
+          <div class="row">
+            <div class="col-md-6 offset-md-3 my-3">
+              <button class="btn btn-outline-light btn-lg btn--raised rounded-3 form-control">Confirm</button>
+            </div>
+          </div>
+        </form>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

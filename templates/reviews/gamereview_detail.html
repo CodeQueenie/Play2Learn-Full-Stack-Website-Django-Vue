@@ -1,0 +1,59 @@
+{% extends "_base.html" %}
+
+{% block title %}Game Review Details{% endblock %}
+{% block main %}
+  <div id="gamereview_detail-container" class="container">
+    <div class="row my-4">
+      <div class="col-md-8 offset-md-2 col-lg-6 offset-lg-3">
+        <div class="card shadow-lg my-3">
+          <div class="d-flex flex-column align-items-center justify-content-center text-center text-uppercase mt-2">
+            <h5 class="badge bg-primary">
+              Review Card
+            </h5>
+            <h2 class="fw-bold">
+              {{ gamereview.get_game_display }}
+            </h2>
+          </div>
+          <div class="card-body">
+            <div class="row">
+              <div class="col-md-6 d-flex justify-content-center align-items-center p-0">
+                {% if gamereview.user.avatar %}
+                  <img src="{{ gamereview.user.avatar.url }}" alt="{{ gamereview.user.username }}" class="rounded-3" width="150" height="150">
+                {% endif %}
+              </div>
+              <div class="col-md-6 my-3 p-1">
+                <p>
+                  Rating: <span>{{ gamereview.game_rating|safe }}</span> <br>
+                  Player <span class="text-success">{{ gamereview.user.username }}</span> says...<br>
+                  <q class="text-center">
+                    {{ gamereview.review }}
+                  </q>
+                </p>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-12 text-center">
+                {% if gamereview.user == user %}
+                <span>Update:
+                  <a href="{% url 'reviews:update' gamereview.slug %}" class="text-decoration-none golden-text p-2">
+                    <i class="fas fa-pencil-alt"></i>
+                  </a></span>
+                <span>Delete:
+                  <a href="{% url 'reviews:delete' gamereview.slug %}" class="btn btn-danger btn-sm p-2">
+                    <i class="far fa-trash-alt"></i>
+                  </a></span>
+                {% endif %}
+              </div>
+            </div>
+          </div>
+          <div class="card-footer">
+            <small>
+              Created on: {{ gamereview.created }} <br>
+              Last Updated: {{ gamereview.updated|date }}
+            </small>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}

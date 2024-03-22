@@ -1,0 +1,98 @@
+{% extends "_base.html" %}
+
+{% block title %}Game Reviews{% endblock %}
+{% block main %}
+<div class="container">
+  <div class="row bg-light my-4 my-sm-5">
+    <div class="col-sm-4 offset-sm-2 text-center mb-3">
+      <h1>Game Reviews</h1>
+      <small>Our Scores from the gamer community!</small>
+      <div class="pt-2">
+        <a class="btn btn-outline-light btn-md btn--raised rounded-3" href="{% url 'reviews:create' %}">
+          + New Review
+        </a>
+      </div>
+    </div>
+    <div class="col-sm-4 offset-sm-2 offset-md-0">
+      <div class="card shadow-lg mt-2">
+        <div class="card-body text-center">
+          <h3 class="display-3 fw-semibold">
+            <i class="fas fa-star text-warning"></i> {{ average_rating|floatformat:1 }}
+          </h3>
+          <p>Average Rating</p>
+        </div>
+      </div>
+    </div>
+  </div>
+    <div class="table-responsive bg-light shadow-lg">
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            {% if request.GET.order == 'rating' and request.GET.direction == 'asc' %}
+            <th class="d-none d-sm-block">
+              <a href="?order=rating&direction=desc" class="text-decoration-none">
+                Rating
+              </a>
+            </th>
+            {% else %}
+            <th class="d-none d-sm-block">
+              <a href="?order=rating&direction=asc" class="text-decoration-none">
+                Rating
+              </a>
+            </th>
+            {% endif %}
+
+            {% if request.GET.order == 'game' and request.GET.direction == 'asc' %}
+            <th>
+              <a href="?order=game&direction=desc" class="text-decoration-none">
+                Game
+              </a>
+            </th>
+            {% else %}
+            <th>
+              <a href="?order=game&direction=asc" class="text-decoration-none">
+                Game
+              </a>
+            </th>
+            {% endif %}
+        
+            <th>
+              <span class="float-start">Review</span>  
+            </th>
+
+            <th>
+              <span class="float-start">By</span>
+            </th>
+          </tr>
+        </thead>
+    
+        <tbody>
+          {% for review in reviews %}
+              <tr>
+                <td class="d-none d-sm-table-cell text-nowrap">
+                    {{ review.game_rating|safe }}
+                </td>
+                <td>
+                    {{ review.get_game_display }}
+                </td>
+                <td>
+                  <a href="{% url 'reviews:details' review.slug %}" class="text-decoration-none">
+                    <q>
+                      {{ review.review }}
+                    </q>
+                  </a>
+                </td>
+                <td class="text-center">
+                  {{ review.user.username }}
+                </td>
+              </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+</div>
+<div class="mt-2 --custom-mb">
+  {% include 'includes/pagination.html' %}
+</div>
+
+{% endblock %}
