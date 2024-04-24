@@ -1,10 +1,153 @@
-from django.shortcuts import render
+from django.contrib import messages
+from django.contrib.auth import get_user_model
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
+from django.urls import reverse, reverse_lazy
+from django.views.generic import DeleteView, DetailView, ListView, TemplateView
 
-# Create your views here.
-from django.views.generic import TemplateView
+import json
+from django.http import JsonResponse
+from games.models import GameScore
 
-class MathFactsView(TemplateView):
-    template_name = "math-facts.html"
 
 class AnagramHuntView(TemplateView):
-    template_name = "anagram-hunt.html"
+    template_name = "games/anagram-hunt.html"
+
+
+class GameScoreDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
+    model = GameScore
+    success_url = reverse_lazy("games:my-scores")
+
+    def delete(self, request, *args, **kwargs):
+        result = super().delete(request, *args, **kwargs)
+        return result
+
+    def form_valid(self, form):
+        messages.success(self.request, "Score deleted")
+        return super().form_valid(form)
+
+    def test_func(self):
+        obj = self.get_object()
+        return self.request.user == obj.user
+
+
+class GameScoreDetailView(DetailView):
+    model = GameScore
+
+
+class LeaderBoardView(ListView):
+    model = GameScore
+    context_object_name = "top_scores"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["username"] = self.request.user.username
+
+        leaderboard = GameScore.objects.order_by("-score", "-created")[:10]
+
+        if leaderboard:
+            first_place = leaderboard[0]
+            second_place = leaderboard[1] if len(leaderboard) > 1 else None
+            third_place = leaderboard[2] if len(leaderboard) > 2 else None
+
+        context["first_place"] = first_place
+        context["second_place"] = second_place
+        context["third_place"] = third_place
+
+        return context
+
+    def get_queryset(self):
+        qs = GameScore.objects.all()
+
+        return qs.order_by("-score", "game", "-created")[:10]
+
+
+class MathFactsView(TemplateView):
+    template_name = "games/math-facts.html"
+
+
+class MathFactsPlayView(MathFactsView):
+    template_name = "games/mathfacts_play.html"
+
+
+class MyScoresView(LoginRequiredMixin, ListView):
+    model = GameScore
+    template_name = "games/myscores_list.html"
+    paginate_by = 10
+    context_object_name = "my_scores"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["username"] = self.request.user.username
+
+        # Ordering and Direction
+        order_fields, order_key, direction = self.get_order_settings()
+        context["order"] = order_key
+        context["direction"] = direction
+        context["order_fields"] = list(order_fields.keys())[:-1]
+
+        return context
+
+    def get_queryset(self):
+        user = self.request.user
+        qs = GameScore.objects.filter(user=user)
+        ordering = self.get_ordering()
+        return qs.order_by(ordering)
+
+    def get_ordering(self):
+        order_fields, order_key, direction = self.get_order_settings()
+
+        ordering = order_fields[order_key]
+
+        if direction != "asc":
+            ordering = "-" + ordering
+
+        return ordering
+
+    def get_order_settings(self):
+        order_fields = self.get_order_fields()
+        default_order_key = order_fields["default_key"]
+        order_key = self.request.GET.get("order", "-created")
+        direction = self.request.GET.get("direction", "desc")
+
+        if order_key not in order_fields:
+            order_key = default_order_key
+
+        return (order_fields, order_key, direction)
+
+    def get_order_fields(self):
+        return {
+            "score": "score",
+            "game": "game",
+            "created": "created",
+            "default_key": "created",
+        }
+
+
+@login_required
+def record_score(request):
+    data = json.loads(request.body)
+
+    user = request.user
+    game = data["game"]
+    score = data["score"]
+
+    new_score_data = {
+        "user": user,
+        "game": game,
+        "score": score,
+    }
+
+    if game == "ANAGRAM":
+        new_score_data["word_length"] = data.get("word_length")
+        new_score_data["total_words"] = data.get("total_words")
+    elif game == "MATH":
+        new_score_data["operation"] = data.get("operation")
+        new_score_data["max_number"] = data.get("max_number")
+
+    new_score = GameScore(**new_score_data)
+    new_score.save()
+
+    response = {"success": True}
+
+    return JsonResponse(response)

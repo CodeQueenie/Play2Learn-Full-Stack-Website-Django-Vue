@@ -15,5 +15,5 @@ class GameReviewForm(forms.ModelForm):
             "review": forms.Textarea(attrs={"cols": "75", "rows": "8"}),
         }
         help_texts = {
-            "review": "Tell us how much fun you had. The most exciting reviews will be featured on our website!",
+            "review": "Share your excitement with us! The most thrilling reviews will be spotlighted on our website.",
         }

@@ -12,43 +12,35 @@
 {% block main %}
 <div id="login-container" class="container">
   <div class="row my-4">
-    <div class="col-md-6">
+    <div class="col-md-12"> <!-- Adjusted column size -->
       <div class="card shadow-lg border-0 my-3">
         <div class="d-flex flex-column align-items-center justify-content-center text-center text-uppercase mt-3">
-          <h5 class="badge bg-primary">Enter Your</h5>
-          <h2 class="fw-bold">Log in</h2>
+          <h2 class="fw-bold">Log in</h2> <!-- Kept the login message as the focus -->
         </div>
         <div class="card-body">
           <form method="post">
             {% csrf_token %}
             {{ form|crispy }}
-            <div class="row">
-              <div class="col-md-6 offset-md-3 mb-1">
-                <button class="form-control btn btn-outline-light btn--raised rounded-3">
-                  LOG IN
-                </button>
-              </div>
+            <div class="d-flex justify-content-center"> <!-- Centered the button -->
+              <button class="form-control btn btn-outline-light btn--raised rounded-3 w-50"> <!-- Adjusted button width -->
+                LOG IN
+              </button>
             </div>
           </form>
         </div>
         <div class="card-footer">
-          <p class="mb-0">
-            Need an account?
+          <p class="mb-0 text-center"> <!-- Centered footer text -->
+            Register an account?
             <a href="{% url 'account_signup' %}" class="text-decoration-none fw-bold">
               Register
             </a><br>
-            Lost your password?
+            Forgot your password?
             <a href="{% url 'account_reset_password' %}" class="text-decoration-none fw-bold">
               Reset it
             </a>
           </p>
         </div>
       </div>
-    </div>
-    <div class="col-md-6">
-      <h1 class="display-3 text-center mt-4">
-        Are you ready? Let's <span class="text-primary fw-bold replace-me">Play, 2, Learn</span>
-      </h1>
     </div>
   </div>
 </div>

@@ -13,25 +13,26 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 import os
 from pathlib import Path
 
+from dotenv import load_dotenv
+load_dotenv()
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
-
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.environ.get("SECRET_KEY")
+# Get SECRET_KEY from the environment or use a default (unsafe) value
+SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', 'yqt()!cc!^g_+egt+x)z_*k^*v=+c-^rp^5(bn@&#4z@gxj_&v')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ["play2learn-fun-b8f730659daf.herokuapp.com"]
+ALLOWED_HOSTS = ['localhost', 'play2learn-fun-b8f730659daf.herokuapp.com', '127.0.0.1']
 
 INTERNAL_IPS = [  # Necessary for the Debug Toolbar
     "127.0.0.1",
 ]
-
 
 # Application definition
 
@@ -86,7 +87,7 @@ ROLLBAR = {
     "root": BASE_DIR,
 }
 
-ROOT_URLCONF = "play2learn.urls"
+ROOT_URLCONF = 'play2learn.urls'
 
 TEMPLATES = [
     {
@@ -104,15 +105,15 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = "PLAY2LEARN DJANGO PROJECT.wsgi.application"
+WSGI_APPLICATION = 'play2learn.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
-if os.environ.get("LOCAL_DEV", False):
+if os.environ.get("LOCAL_DEV", True):
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.postgresql',
-            'NAME': 'play2learn-fun',
+            'NAME': 'play2learn_fun',
             'USER': 'postgres',
             'PASSWORD': 'MommyLearns22!!',
             'HOST': 'localhost',
@@ -123,7 +124,7 @@ else:
     import dj_database_url
 
     DATABASES = {
-        'default': dj_database_url.config(default=os.getenv('DATABASE_URL'))
+        'default': dj_database_url.config(default=os.getenv('NEW_DATABASE_URL', os.getenv('DATABASE_URL')))
     }
 
 # Email
@@ -133,7 +134,7 @@ EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 EMAIL_HOST_USER = "apikey"
 EMAIL_HOST_PASSWORD = SENDGRID_API_KEY
-DEFAULT_FROM_EMAIL = "agenthiggins@gmail.com"
+DEFAULT_FROM_EMAIL = "nicolenorah49@gmail.com"
 
 AUTHENTICATION_BACKENDS = (
     # Needed to login by username in Django admin, even w/o `allauth`
@@ -191,10 +192,16 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
-STATIC_URL = "static/"
-STATICFILES_DIRS = [BASE_DIR / "static"]
-STATIC_ROOT = BASE_DIR / "staticfiles"
+# Assuming "static" is your source static files directory, and "staticfiles" is for collected static files
+STATIC_URL = '/static/'
+STATICFILES_DIRS = [
+    BASE_DIR / "static",
+    BASE_DIR / "static/dist", 
+]# Source static files you're actively working on
+STATIC_ROOT = BASE_DIR / "staticfiles"  # Destination directory for collectstatic
 
+# WhiteNoise configuration for static files
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 MEDIA_URL = "media/"
 MEDIA_ROOT = BASE_DIR / "media"

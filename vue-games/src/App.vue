@@ -3,12 +3,14 @@
 </template>
 
 <script>
-  export default {
-    name: 'App',
-  }
+export default {
+  name: 'App',
+}
 </script>
 
-<!-- <script>
+<!-- Uncomment this section if you want to use HelloWorld component -->
+<!--
+<script>
 import HelloWorld from './components/HelloWorld.vue'
 
 export default {
@@ -18,14 +20,16 @@ export default {
   }
 }
 </script>
+-->
 
 <style>
 #app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
+  font-family: Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
-  color: #2c3e50;
+  color: #000000; /* Black text color for better contrast */
+  background-color: #f2f2f2; /* Light gray background color */
   margin-top: 60px;
 }
-</style> -->
+</style>

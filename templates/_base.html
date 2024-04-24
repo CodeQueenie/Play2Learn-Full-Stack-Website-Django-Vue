@@ -8,7 +8,7 @@
       <meta name="viewport" content="width=device-width, initial-scale=1.0">
       <link rel="preconnect" href="https://fonts.googleapis.com">
       <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-      <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+      <link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@300..700&display=swap" rel="stylesheet">
       <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
       <link rel="stylesheet" href="{% static 'css/_base.css' %}">
       {% block javascript %}
@@ -17,7 +17,7 @@
       <script src="https://kit.fontawesome.com/391afddfb3.js" crossorigin="anonymous" defer></script>
       {% endblock %}
       <link rel="shortcut icon" type="image/png" href="{% static 'images/logo.svg' %}">
-      <title>{% block title %}{% endblock %} | Play2Learn</title>
+      <title>{% block title %}{% endblock %} | Play2Learn: Fun Math & Word Games</title>
     {% endblock %}
   </head>
   <body>
@@ -25,7 +25,7 @@
       <!-- Navbar -->
       <nav class="navbar navbar-expand-lg text-black fw-bold sticky-top">
         <div class="container">
-          <img src="{% static 'images/logo.svg' %}" alt="Play 2 learn logo" width="45" height="43" class="me-1" />
+          <img src="{% static 'images/logo.svg' %}" alt="Play2Learn Logo" width="45" height="43" class="me-1" />
           <a href="{% url 'pages:homepage' %}" class="navbar-brand">Play2Learn</a>
           <button class="navbar-toggler" type="button" 
           data-bs-toggle="collapse" data-bs-target="#navbarText">
@@ -46,7 +46,7 @@
                   data-bs-toggle="dropdown" 
                   aria-expanded="false"
                 >
-                  Games
+                  Pick a Game!
                 </button>
                 <ul class="dropdown-menu shadow-lg bg-light">
                   <li>
@@ -61,7 +61,7 @@
                     <a href="{% url 'games:math-facts' %}" 
                       class="dropdown-item dd--game"
                     >
-                      Math Facts Practice
+                      Math Practice
                     </a>
                   </li>
                 </ul>
@@ -74,14 +74,14 @@
                   data-bs-toggle="dropdown" 
                   aria-expanded="false"
                 >
-                  Info
+                  Discover
                 </button>
                 <ul class="dropdown-menu shadow-lg bg-light">
                   <li>
                     <a href="{% url 'games:leaderboard' %}" 
                       class="dropdown-item dd--game"
                     >
-                      Leaderboards
+                      Leaderboard
                     </a>
                   </li>
                   <div class="dropdown-divider"></div>
@@ -90,14 +90,6 @@
                       class="dropdown-item dd--game"
                     >
                       Reviews
-                    </a>
-                  </li>
-                  <div class="dropdown-divider"></div>
-                  <li>
-                    <a href="{% url 'pages:about-us' %}" 
-                      class="dropdown-item dd--game"
-                    >
-                      About
                     </a>
                   </li>
                 </ul>
@@ -115,7 +107,7 @@
                 <a href="{% url 'account_signup' %}" 
                   class="nav-link btn-outline-light"
                 >
-                  Sign Up
+                  Join Us
                 </a>
               </li>
               {% else %}
@@ -214,7 +206,7 @@
         <div class="container">
           <div class="row">
             <div class="d-none d-sm-block col-sm-8 d-sm-flex">
-              <img src="{% static 'images/logo.svg' %}" alt="Play 2 learn logo" width="45" height="43" class="" />
+              <img src="{% static 'images/logo.svg' %}" alt="Play2Learn Logo" width="45" height="43" class="" />
               <p class="text-black ps-2 p-2">
                   <a href="{% url 'pages:homepage' %}" class="text-decoration-none text-black fw-bold">Play2Learn</a> &copy; {% now 'Y' %}
               </p>
@@ -238,8 +230,13 @@
       </footer>
       
       <button id="to-top" class="to-top-btn">
-        <img src="{% static 'images/up-arrow.png' %}" alt="Up Arrow">
+        <img src="{% static 'images/fingerup.jpg' %}" alt="Up Arrow">
       </button>
+
+      <script>
+        // Change the --icon-color property on page load
+        document.documentElement.style.setProperty('--icon-color', '#FF5733'); 
+        </script>
 
     {% endblock %}
   </body>
